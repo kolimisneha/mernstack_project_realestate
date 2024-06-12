@@ -24,21 +24,18 @@ const app = express();
 app.use(express.json());
 
 app.use(cookieParser());
+const port = process.env.PORT || 8001;
 
-app.listen(3001, () => {
-  console.log('Server is running on port 3001!');
-});
+app.listen(port, () => {
+  console.log(` app listening on port ${port}`)
+})
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
 
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-})
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
